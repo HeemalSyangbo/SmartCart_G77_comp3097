@@ -1,0 +1,23 @@
+# Xcode
+.DS_Store
+DerivedData/
+build/
+*.xcuserstate
+
+# User-specific Xcode data
+xcuserdata/
+*.xcuserdata/
+
+# Swift Package Manager
+.swiftpm/
+Package.resolved
+
+# CocoaPods / Carthage (not used now, but safe)
+Pods/
+Carthage/
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots
+fastlane/test_output
