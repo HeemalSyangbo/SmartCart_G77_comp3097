@@ -1,23 +1,11 @@
 import SwiftUI
-
-struct CartItem: Identifiable {
-    let id = UUID()
-    let name: String
-    let qty: Int
-    let price: Double
-}
+import SwiftData
 
 struct ListDetailView: View {
-    let listName: String
-
-    private let items: [CartItem] = [
-        .init(name: "Milk", qty: 2, price: 4.50),
-        .init(name: "Bread", qty: 1, price: 3.25),
-        .init(name: "Eggs", qty: 1, price: 5.99)
-    ]
+    let list: ShoppingList
 
     private var subtotal: Double {
-        items.reduce(0) { $0 + (Double($1.qty) * $1.price) }
+        list.items.reduce(0) { $0 + (Double($1.quantity) * $1.price) }
     }
 
     private var tax: Double { subtotal * 0.13 }
@@ -26,19 +14,28 @@ struct ListDetailView: View {
     var body: some View {
         List {
             Section("Items") {
-                ForEach(items) { item in
-                    HStack {
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text(item.name).font(.headline)
-                            Text("Qty: \(item.qty)")
-                                .font(.subheadline)
-                                .foregroundStyle(.secondary)
+                if list.items.isEmpty {
+                    Text("No items in this list yet")
+                        .foregroundStyle(.secondary)
+                } else {
+                    ForEach(list.items) { item in
+                        HStack {
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(item.name)
+                                    .font(.headline)
+
+                                Text("Qty: \(item.quantity)")
+                                    .font(.subheadline)
+                                    .foregroundStyle(.secondary)
+                            }
+
+                            Spacer()
+
+                            Text("$\(Double(item.quantity) * item.price, specifier: "%.2f")")
+                                .font(.headline)
                         }
-                        Spacer()
-                        Text("$\(Double(item.qty) * item.price, specifier: "%.2f")")
-                            .font(.headline)
+                        .padding(.vertical, 6)
                     }
-                    .padding(.vertical, 6)
                 }
             }
 
@@ -48,11 +45,11 @@ struct ListDetailView: View {
                 summaryRow("Total", total, bold: true)
             }
         }
-        .navigationTitle(listName)
+        .navigationTitle(list.name)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 NavigationLink {
-                    AddItemView()
+                    AddItemView(list: list)
                 } label: {
                     Image(systemName: "plus")
                 }
@@ -73,6 +70,7 @@ struct ListDetailView: View {
 
 #Preview {
     NavigationStack {
-        ListDetailView(listName: "Groceries")
+        ListDetailView(list: ShoppingList(name: "Groceries"))
     }
+    .modelContainer(for: [ShoppingList.self, CartItem.self], inMemory: true)
 }

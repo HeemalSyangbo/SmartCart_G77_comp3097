@@ -1,6 +1,12 @@
 import SwiftUI
+import SwiftData
 
 struct AddItemView: View {
+    let list: ShoppingList
+
+    @Environment(\.modelContext) private var modelContext
+    @Environment(\.dismiss) private var dismiss
+
     @State private var itemName = ""
     @State private var price = ""
     @State private var quantity = 1
@@ -27,17 +33,42 @@ struct AddItemView: View {
 
             Section {
                 Button("Save Item") {
-                    // UI milestone: no real save yet
+                    saveItem()
                 }
                 .frame(maxWidth: .infinity, alignment: .center)
+                .disabled(itemName.trimmingCharacters(in: .whitespaces).isEmpty || Double(price) == nil)
             }
         }
         .navigationTitle("Add Item")
+    }
+
+    private func saveItem() {
+        guard let priceValue = Double(price),
+              !itemName.trimmingCharacters(in: .whitespaces).isEmpty else {
+            return
+        }
+
+        let newItem = CartItem(
+            name: itemName,
+            price: priceValue,
+            quantity: quantity,
+            category: category
+        )
+
+        list.items.append(newItem)
+
+        do {
+            try modelContext.save()
+            dismiss()
+        } catch {
+            print("Failed to save item: \(error)")
+        }
     }
 }
 
 #Preview {
     NavigationStack {
-        AddItemView()
+        AddItemView(list: ShoppingList(name: "Groceries"))
     }
+    .modelContainer(for: [ShoppingList.self, CartItem.self], inMemory: true)
 }

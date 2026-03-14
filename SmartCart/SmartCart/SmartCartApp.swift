@@ -1,11 +1,7 @@
-//
-//  SmartCartApp.swift
-//  SmartCart
-//
-//  Created by Heemal Syangbo on 2026-02-08.
-//
+
 
 import SwiftUI
+import SwiftData
 
 @main
 struct SmartCartApp: App {
@@ -13,5 +9,6 @@ struct SmartCartApp: App {
         WindowGroup {
             ContentView()
         }
+        .modelContainer(for: [ShoppingList.self, CartItem.self])
     }
 }
