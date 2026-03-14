@@ -4,6 +4,8 @@ import SwiftData
 struct ListDetailView: View {
     let list: ShoppingList
 
+    @Environment(\.modelContext) private var modelContext
+
     private var subtotal: Double {
         list.items.reduce(0) { $0 + (Double($1.quantity) * $1.price) }
     }
@@ -27,6 +29,10 @@ struct ListDetailView: View {
                                 Text("Qty: \(item.quantity)")
                                     .font(.subheadline)
                                     .foregroundStyle(.secondary)
+
+                                Text(item.category)
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
                             }
 
                             Spacer()
@@ -36,6 +42,7 @@ struct ListDetailView: View {
                         }
                         .padding(.vertical, 6)
                     }
+                    .onDelete(perform: deleteItems)
                 }
             }
 
@@ -54,6 +61,19 @@ struct ListDetailView: View {
                     Image(systemName: "plus")
                 }
             }
+        }
+    }
+
+    private func deleteItems(at offsets: IndexSet) {
+        for index in offsets {
+            let item = list.items[index]
+            modelContext.delete(item)
+        }
+
+        do {
+            try modelContext.save()
+        } catch {
+            print("Failed to delete item: \(error)")
         }
     }
 
