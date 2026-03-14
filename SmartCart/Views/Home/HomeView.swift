@@ -5,6 +5,9 @@ struct HomeView: View {
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \ShoppingList.createdAt) private var lists: [ShoppingList]
 
+    @State private var showAddListSheet = false
+    @State private var newListName = ""
+
     var body: some View {
         List {
             Section("Shopping Lists") {
@@ -31,6 +34,41 @@ struct HomeView: View {
             }
         }
         .navigationTitle("SmartCart")
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button {
+                    showAddListSheet = true
+                } label: {
+                    Image(systemName: "plus")
+                }
+            }
+        }
+        .sheet(isPresented: $showAddListSheet) {
+            NavigationStack {
+                Form {
+                    Section("New Shopping List") {
+                        TextField("List name", text: $newListName)
+                    }
+
+                    Section {
+                        Button("Save List") {
+                            saveNewList()
+                        }
+                        .disabled(newListName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                    }
+                }
+                .navigationTitle("Create List")
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .topBarLeading) {
+                        Button("Cancel") {
+                            newListName = ""
+                            showAddListSheet = false
+                        }
+                    }
+                }
+            }
+        }
         .onAppear {
             insertDefaultListsIfNeeded()
         }
@@ -53,6 +91,22 @@ struct HomeView: View {
             try modelContext.save()
         } catch {
             print("Failed to save default lists: \(error)")
+        }
+    }
+
+    private func saveNewList() {
+        let trimmedName = newListName.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmedName.isEmpty else { return }
+
+        let newList = ShoppingList(name: trimmedName)
+        modelContext.insert(newList)
+
+        do {
+            try modelContext.save()
+            newListName = ""
+            showAddListSheet = false
+        } catch {
+            print("Failed to save new list: \(error)")
         }
     }
 }
