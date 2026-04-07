@@ -1,61 +1,117 @@
-# SmartCart 🛒
+<div align="center">
 
-SmartCart is an iOS shopping list application built using **SwiftUI** and **SwiftData**.  
-The app helps users create shopping lists, add items, and manage them with a simple and intuitive interface.
+# 🛒 SmartCart
 
----
+### 📱 Shopping List & Tax Calculator
 
-## Team Members
+**Group 77**  
+**COMP 3097 – Mobile App Development II**  
+**George Brown College**
 
-- **Heemal Syangbo** – App structure and SwiftData integration  
-- **Anudhin Thomas** – Create new shopping list feature  
-- **Jeffin Yohannan** – Swipe to delete functionality  
+*A modern iOS shopping list application built with SwiftUI and SwiftData.*
 
----
-
-## Features Implemented (30% Prototype)
-
-- Launch screen  
-- Home screen displaying shopping lists  
-- Create new shopping list  
-- View list details  
-- Add items to a list  
-- Swipe to delete items  
-- Automatic subtotal, tax, and total calculation  
-- Data persistence using SwiftData  
+</div>
 
 ---
 
-## Technology Used
+## 👥 Team Members
 
-- SwiftUI  
-- SwiftData  
-- Xcode  
-- GitHub  
-
----
-
-## Project Structure
-
-SmartCart  
-├── Models  
-│   ├── ShoppingList.swift  
-│   └── CartItem.swift  
-├── Views  
-│   ├── Launch  
-│   ├── Home  
-│   ├── ListDetail  
-│   └── AddItem  
-└── SmartCartApp.swift  
+| Name | Student ID |
+|------|------------|
+| Heemal Syangbo | 101532464 |
+| Anudhin Thomas | 101516423 |
+| Jeffin Yohannan | 101512594 |
 
 ---
 
-## Project Status
+## 🚀 Overview
 
-This repository contains the **early prototype (~30% completion)** of the SmartCart application.
+SmartCart is a modern iOS application designed to help users organize shopping items, manage multiple shopping lists, and automatically calculate totals including tax.
 
-Future improvements may include:
-- Editing items  
-- Search and filtering  
-- Category management  
-- UI improvements  
+The app provides a clean and intuitive interface where users can:
+- create shopping lists
+- add and manage items
+- calculate subtotal, tax, and final total automatically
+- save data persistently using SwiftData
+
+---
+
+## ✨ Features
+
+### 📝 Shopping Lists
+- Create and manage multiple shopping lists
+- View shopping lists in a clean dashboard
+- Delete shopping lists with confirmation alerts
+
+### 🛍 Item Management
+- Add items with:
+  - name
+  - price
+  - quantity
+  - category
+- Delete items with confirmation alerts
+
+### 🧮 Smart Calculations
+- Automatic subtotal calculation
+- Tax calculation (13%)
+- Final total displayed instantly
+
+### 💾 Data Persistence
+- Built using **SwiftData**
+- Lists and items remain saved after app restart
+
+### 🎨 User Interface
+- Clean and modern design
+- Card-based layout for readability
+- Smooth multi-screen navigation
+- Consistent spacing and structure
+
+---
+
+## 📲 App Screens
+
+- 🚀 Launch Screen
+- 🏠 Home Screen (Shopping Lists)
+- 📋 List Detail Screen
+- ➕ Add Item Screen
+
+---
+
+## 🛠 Technology Stack
+
+- Swift
+- SwiftUI
+- SwiftData
+- Xcode
+- GitHub
+
+---
+
+## 🧠 How It Works
+
+**Create List → Add Items → Calculate → Save → Reopen Anytime**
+
+1. Create a shopping list  
+2. Add items with price and quantity  
+3. Subtotal is calculated automatically  
+4. Tax (13%) is applied  
+5. Final total is displayed instantly  
+6. Data is saved and persists after reopening the app  
+
+---
+
+## 📂 Project Structure
+
+```text
+SmartCart
+├── Models
+│   ├── ShoppingList.swift
+│   └── CartItem.swift
+├── Views
+│   ├── Launch
+│   ├── Home
+│   ├── ListDetail
+│   └── AddItem
+├── Components
+│   └── CircleButtonView.swift
+└── SmartCartApp.swift
